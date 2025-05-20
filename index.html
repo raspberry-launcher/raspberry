@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7C4DFF">
+    <meta name="description" content="Raspberry Launcher - современный лаунчер для ваших игр">
+    <title>Raspberry Launcher</title>
+    
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Стили -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="assets/logo-192.png">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Заголовок окна (custom titlebar) -->
+        <div class="titlebar">
+            <div class="titlebar-title">
+                <img src="assets/logo.png" alt="Raspberry Launcher" class="logo">
+                <span>Raspberry Launcher</span>
+            </div>
+            <div class="titlebar-controls">
+                <button id="minimize-btn" class="control-btn" title="Свернуть">
+                    <i class="fas fa-window-minimize"></i>
+                </button>
+                <button id="maximize-btn" class="control-btn" title="Развернуть">
+                    <i class="fas fa-window-maximize"></i>
+                </button>
+                <button id="close-btn" class="control-btn" title="Закрыть">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Основное содержимое -->
+        <div class="main-content">
+            <!-- Боковая панель навигации -->
+            <div class="sidebar">
+                <div class="nav-item active" data-tab="library">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Библиотека</span>
+                </div>
+                <div class="nav-item" data-tab="store">
+                    <i class="fas fa-store"></i>
+                    <span>Магазин</span>
+                    <div class="nav-badge">Скоро</div>
+                </div>
+                <div class="nav-item" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Настройки</span>
+                </div>
+                <div class="nav-item" data-tab="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>О программе</span>
+                </div>
+                
+                <div class="sidebar-footer">
+                    <div class="theme-switcher">
+                        <button class="theme-btn" data-theme="light" title="Светлая тема">
+                            <i class="fas fa-sun"></i>
+                        </button>
+                        <button class="theme-btn active" data-theme="dark" title="Темная тема">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <button class="theme-btn" data-theme="system" title="Системная тема">
+                            <i class="fas fa-desktop"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Область содержимого -->
+            <div class="content-area">
+                <!-- Библиотека -->
+                <div class="content-tab active" id="library">
+                    <div class="header-with-actions">
+                        <h2>Моя библиотека</h2>
+                        <div class="header-actions">
+                            <div class="view-switcher">
+                                <button class="view-btn active" data-view="grid" title="Вид сеткой">
+                                    <i class="fas fa-grid-2"></i>
+                                </button>
+                                <button class="view-btn" data-view="list" title="Вид списком">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                            <button id="add-game-btn" class="primary-btn">
+                                <i class="fas fa-plus"></i>
+                                <span>Добавить игру</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-games" placeholder="Поиск игр...">
+                        <div class="search-shortcuts">
+                            <kbd>Ctrl</kbd> + <kbd>F</kbd>
+                        </div>
+                    </div>
+                    
+                    <div class="games-grid" id="games-container">
+                        <!-- Игры будут добавлены через JavaScript -->
+                        <div class="no-games-message" id="no-games-message">
+                            <i class="fas fa-gamepad"></i>
+                            <p>У вас пока нет игр в библиотеке</p>
+                            <button id="add-first-game-btn" class="primary-btn">
+                                <i class="fas fa-plus"></i>
+                                <span>Добавить игру</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Магазин (заглушка) -->
+                <div class="content-tab" id="store">
+                    <div class="coming-soon-container">
+                        <i class="fas fa-store"></i>
+                        <h2>Магазин игр</h2>
+                        <p>Функциональность магазина будет добавлена в будущих обновлениях!</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <p class="progress-text">В разработке</p>
+                    </div>
+                </div>
+
+                <!-- Настройки -->
+                <div class="content-tab" id="settings">
+                    <h2>Настройки</h2>
+                    
+                    <div class="settings-group">
+                        <h3>Внешний вид</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-title">Анимации</span>
+                                <span class="setting-description">Включить плавные переходы и эффекты</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="animations-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3>Запуск</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-title">Автозапуск</span>
+                                <span class="setting-description">Запускать вместе с Windows</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="autostart-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-title">Запуск свернутым</span>
+                                <span class="setting-description">Запускать приложение в свернутом виде</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="start-minimized-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3>Игры</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-title">Путь к играм по умолчанию</span>
+                                <span class="setting-description">Папка для поиска игр</span>
+                            </div>
+                            <div class="file-input-group">
+                                <input type="text" id="games-path" readonly>
+                                <button type="button" id="browse-games-path-btn" class="secondary-btn">Обзор</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- О программе -->
+                <div class="content-tab" id="about">
+                    <div class="about-content">
+                        <div class="about-header">
+                            <img src="assets/logo-large.png" alt="Raspberry Launcher" class="about-logo">
+                            <h2>Raspberry Launcher</h2>
+                            <div class="version-badge">
+                                <span class="version">Версия 1.0.0</span>
+                                <span class="update-status">Актуальная версия</span>
+                            </div>
+                        </div>
+                        
+                        <div class="about-description">
+                            <p>Raspberry Launcher - это современный и удобный лаунчер для ваших игр.</p>
+                            <p>Разработан с вдохновением от Hydra Launcher.</p>
+                        </div>
+                        
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-gamepad"></i>
+                                <span class="stat-value" id="games-count">0</span>
+                                <span class="stat-label">Игр в библиотеке</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span class="stat-value" id="total-playtime">0ч</span>
+                                <span class="stat-label">Общее время в играх</span>
+                            </div>
+                        </div>
+                        
+                        <div class="about-links">
+                            <button id="check-updates-btn" class="secondary-btn">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Проверить обновления</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления игры -->
+    <div class="modal" id="add-game-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить игру</h3>
+                <button class="modal-close" id="close-modal-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-game-form">
+                    <div class="form-group">
+                        <label for="game-name">Название игры</label>
+                        <input type="text" id="game-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="game-exe">Исполняемый файл</label>
+                        <div class="file-input-group">
+                            <input type="text" id="game-exe" readonly required>
+                            <button type="button" id="browse-exe-btn" class="secondary-btn">
+                                <i class="fas fa-folder-open"></i>
+                                <span>Обзор</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="game-icon">Иконка игры (необязательно)</label>
+                        <div class="file-input-group">
+                            <input type="text" id="game-icon" readonly>
+                            <button type="button" id="browse-icon-btn" class="secondary-btn">
+                                <i class="fas fa-image"></i>
+                                <span>Обзор</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="game-desc">Описание (необязательно)</label>
+                        <textarea id="game-desc" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-add-game-btn" class="secondary-btn">
+                            <i class="fas fa-times"></i>
+                            <span>Отмена</span>
+                        </button>
+                        <button type="submit" id="submit-add-game-btn" class="primary-btn">
+                            <i class="fas fa-check"></i>
+                            <span>Добавить</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования игры -->
+    <div id="edit-game-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактирование игры</h3>
+                <button class="modal-close" id="close-edit-modal-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-game-form">
+                    <div class="form-group">
+                        <label for="edit-game-name">Название игры</label>
+                        <input type="text" id="edit-game-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-game-exe">Путь к игре</label>
+                        <div class="file-input-group">
+                            <input type="text" id="edit-game-exe" required readonly>
+                            <button type="button" id="edit-browse-exe-btn" class="secondary-btn">
+                                <i class="fas fa-folder-open"></i>
+                                <span>Обзор</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-game-icon">Иконка игры (необязательно)</label>
+                        <div class="file-input-group">
+                            <input type="text" id="edit-game-icon">
+                            <button type="button" id="edit-browse-icon-btn" class="secondary-btn">
+                                <i class="fas fa-image"></i>
+                                <span>Обзор</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-game-desc">Описание (необязательно)</label>
+                        <textarea id="edit-game-desc" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="cancel-edit-game-btn" class="secondary-btn">
+                            <i class="fas fa-times"></i>
+                            <span>Отмена</span>
+                        </button>
+                        <button type="submit" class="primary-btn">
+                            <i class="fas fa-save"></i>
+                            <span>Сохранить</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Оверлей для модальных окон -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+
+    <!-- Уведомления -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <script src="renderer.js"></script>
+</body>
+</html> 
