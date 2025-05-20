@@ -12,7 +12,7 @@
 
 ## Сообщение об уязвимостях
 
-Если вы обнаружили уязвимость в Raspberry Launcher, пожалуйста, напишите [https://t.me/harmony_ofc] (Telegram)
+Если вы обнаружили уязвимость в Raspberry Launcher, пожалуйста, напишите в [Telegram](https://t.me/harmony_ofc)
 
 ## Процесс обработки
 
